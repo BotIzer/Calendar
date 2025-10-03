@@ -1,9 +1,9 @@
-package src.main.java.Windows;
+package src.main.java.windows;
 import javax.swing.*;
 import java.awt.*;
 
 public class WindowBase extends JFrame {
-    static Dimension _resolution = new Dimension(640, 480);
+    static Dimension _resolution = new Dimension(1024, 768);
     private static WindowBase active;
     
     public static WindowBase getInstance(){

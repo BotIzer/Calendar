@@ -7,10 +7,8 @@ public class Task {
     private LocalDateTime end;
     private String title;
     private String description;
-    private enum priority {
-        HIGH,
-        LOW
-    }
+    private boolean priority;
+
     public Task(){};
     public Task(LocalDateTime s, LocalDateTime e, String t, String d){
         start = s;
@@ -27,8 +25,9 @@ public class Task {
         description = null;
     }
 
-    public LocalDateTime getStart(){return start;};
-    public LocalDateTime getEnd(){return end;};
-    public String getTitle(){return title;};
-    public String getDescription(){return description;};
+    public LocalDateTime getStart(){return start;}
+    public LocalDateTime getEnd(){return end;}
+    public String getTitle(){return title;}
+    public String getDescription(){return description;}
+    public boolean getPriority(){return priority;}
 }

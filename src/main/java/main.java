@@ -1,8 +1,6 @@
 package src.main.java;
-import java.awt.Window;
-import java.io.*;
 
-import src.main.java.Windows.*;
+import src.main.java.windows.*;
 
 public class main {
  

@@ -1,9 +1,8 @@
-package src.main.java.Windows;
+package src.main.java.windows;
 import javax.swing.*;
 
 import java.awt.*;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -28,24 +27,19 @@ public class MainMenu extends WindowBase {
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.TOP);
         
-         Container calendar = new Container();
-        
+        JPanel calendar = new JPanel();
         calendar.setLayout(new GridLayout(1,7));
         for (int i = 1; i < 8; i++) {
             DayContainer dc = new DayContainer(DayOfWeek.of(i).getDisplayName(TextStyle.FULL, getLocale()), data);
-            // JLabel name = new JLabel(DayOfWeek.of(i).getDisplayName(TextStyle.FULL, getLocale()));
-            // name.setVerticalAlignment(JLabel.TOP);
-            // name.setHorizontalAlignment(JLabel.CENTER);
-            // name.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            // if(i == LocalDate.now().getDayOfWeek().getValue()){
-            //     name.setForeground(Color.BLUE);
-            // }
-            // calendar.add(name);
             calendar.add(dc);
         }
+        calendar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
+
+        JButton newTaskBtn = new JButton("Add Task");
+        
         this.add(title);
         this.add(calendar);
-        
+        this.add(newTaskBtn);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
