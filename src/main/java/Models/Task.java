@@ -21,7 +21,7 @@ public class Task {
     public Task(String t, LocalDateTime date){
         title = t;
         start = date;
-        end = null;
+        end = date;
         description = null;
     }
 

@@ -1,21 +1,19 @@
 package src.main.java.Models;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import src.main.java.windows.Details;
-import src.main.java.windows.WindowBase;
 
 public class TaskContainer extends JPanel{
     private static JButton tb;
@@ -31,15 +29,22 @@ public class TaskContainer extends JPanel{
             gc.weightx = 1;
             tb.setText((tl.get(0).getTitle()));
             tb.addActionListener(e -> new Details(tl.get(0)));
-            JButton showMore = new JButton("+" + tl.size());
             if (tl.get(0).getPriority()) {
                 tb.setBackground(Color.RED);
             } else {
                 tb.setBackground(Color.CYAN);
             }
             this.add(tb, gc);
+            JMenuBar menuBar = new JMenuBar();
+            JMenu showMore = new JMenu("+" + (tl.size() - 1));
+            for (Task task : tl.subList(1, tl.size())) {
+                JMenuItem taskMenu = new JMenuItem(task.getTitle());
+                showMore.add(taskMenu);
+                taskMenu.addActionListener(e -> new Details(task));
+            }
             gc.weightx = 0;
-            this.add(showMore, gc);
+            menuBar.add(showMore);
+            this.add(menuBar, gc);
         }else {
             gc.gridwidth = tl.size();
             gc.fill = GridBagConstraints.BOTH;
