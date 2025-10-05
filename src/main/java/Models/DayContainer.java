@@ -9,8 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DayContainer extends JPanel{
+    //Container for a day
     public DayContainer(String label, ArrayList<Task> tasks){
+        //Layout configuration
         this.setLayout(new GridLayout(5, 1));
+        //Divide task to timeslots
         ArrayList<Task> morning = new ArrayList<>();
         ArrayList<Task> noon = new ArrayList<>();
         ArrayList<Task> afterNoon = new ArrayList<>();
@@ -27,17 +30,17 @@ public class DayContainer extends JPanel{
                 night.add(task);
             } 
         }        
-
+        //Component declaration
         JLabel title = new JLabel(label);
         TaskContainer morningContainer = new TaskContainer(morning);
         TaskContainer noonContainer = new TaskContainer(noon);
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);
         TaskContainer nightContainer = new TaskContainer(night);
-
+        //Styling
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
+        //Add components to Container
         this.add(title);
         this.add(morningContainer);
         this.add(noonContainer);

@@ -18,15 +18,17 @@ import javax.swing.JTextPane;
 import javax.swing.border.Border;
 
 import src.main.java.Models.Task;
-
+//Dialog popup for tasks and modifications
 public class Details extends JDialog {
     public Details(Task tl){
         //Disable parent until dialog is closed
         WindowBase.getInstance().setEnabled(false);
+        //Configuration of layout
         this.setLayout(new GridLayout(6, 2, 0,0));
         this.setName("Details");
         this.setSize(250, 400);
         this.setTitle("Details");
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Components in first column
         JLabel title = new JLabel("Title:");
         JLabel desc = new JLabel("Description:");
@@ -51,9 +53,9 @@ public class Details extends JDialog {
         newTitle.setBorder(border);
         newDesc.setBorder(border);
         ok.setAlignmentY(BOTTOM_ALIGNMENT);
-
+        //Eventlisteners
         ok.addActionListener(e -> onClick());
-        
+        //Adding individual components
         this.add(title);
         this.add(newTitle);
         this.add(desc);
@@ -67,14 +69,13 @@ public class Details extends JDialog {
         this.add(ok);
         this.setVisible(true);
         
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     //Save changes,then close window and enable parent
     private void onClick(){
         WindowBase.getInstance().setEnabled(true);
         dispose();
     }
-    //Enable Parent even if force closed
+    //Enable Parent even if force closed via statusbar, discards changes
     @Override
     public void dispose() {
         super.dispose();
