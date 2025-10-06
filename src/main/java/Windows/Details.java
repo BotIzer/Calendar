@@ -2,9 +2,7 @@ package src.main.java.windows;
 
 
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.GridLayout;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
@@ -20,7 +18,14 @@ import javax.swing.border.Border;
 import src.main.java.Models.Task;
 //Dialog popup for tasks and modifications
 public class Details extends JDialog {
-    public Details(Task tl){
+    //Input fields to get updated data from, need to access in onClick function
+    static JTextPane newTitle = new JTextPane();
+    static JTextPane newDesc = new JTextPane();
+    static JCheckBox newPriority = new JCheckBox();
+    static JFormattedTextField newStart = new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    static JFormattedTextField newEnd = new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+
+    public Details(Task task){
         //Disable parent until dialog is closed
         WindowBase.getInstance().setEnabled(false);
         //Configuration of layout
@@ -36,16 +41,11 @@ public class Details extends JDialog {
         JLabel end = new JLabel("End time:");
         JLabel priority = new JLabel("Priority:");
         //Components in second column
-        JTextPane newTitle = new JTextPane();
-        newTitle.setText(tl.getTitle());
-        JTextPane newDesc = new JTextPane();
-        newDesc.setText(tl.getDescription());
-        JCheckBox newPriority = new JCheckBox();
-        newPriority.setSelected(tl.getPriority());
-        JFormattedTextField newStart = new JFormattedTextField(new SimpleDateFormat("yyyy.MM.dd HH:mm"));
-        newStart.setText(tl.getStart().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
-        JFormattedTextField newEnd = new JFormattedTextField(new SimpleDateFormat("yyyy.MM.dd HH:mm"));
-        newEnd.setText(tl.getEnd().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
+        newTitle.setText(task.getTitle());
+        newDesc.setText(task.getDescription());
+        newPriority.setSelected(task.getPriority());
+        newStart.setText(task.getStart().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
+        newEnd.setText(task.getEnd().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
         JButton ok = new JButton("Ok");
         
         //Styling
@@ -54,7 +54,7 @@ public class Details extends JDialog {
         newDesc.setBorder(border);
         ok.setAlignmentY(BOTTOM_ALIGNMENT);
         //Eventlisteners
-        ok.addActionListener(e -> onClick());
+        ok.addActionListener(e -> onClick(task));
         //Adding individual components
         this.add(title);
         this.add(newTitle);
@@ -71,9 +71,31 @@ public class Details extends JDialog {
         
     }
     //Save changes,then close window and enable parent
-    private void onClick(){
-        WindowBase.getInstance().setEnabled(true);
-        dispose();
+    private void onClick(Task task){
+        try {
+            task.setTitle(newTitle.getText());
+            task.setDesc(newDesc.getText());
+            task.setStart(Task.stringToLocalDate(newStart.getText()));
+            task.setEnd(Task.stringToLocalDate(newEnd.getText()));
+            task.setPrio(newPriority.isSelected());
+            WindowBase.getInstance().setEnabled(true);
+            dispose();
+        } catch (Exception e) {
+            JDialog errDialog = new JDialog();
+            errDialog.setLayout(new GridLayout(2,1));
+            JLabel errLabel = new JLabel(e.getMessage());
+            JButton ok = new JButton("Ok");
+            ok.addActionListener(a -> {this.setEnabled(true); errDialog.dispose();});
+            errDialog.setSize(errLabel.getPreferredSize().width + 100, 100);
+            errDialog.setTitle("Error");
+            errDialog.add(errLabel);
+            errDialog.add(ok);
+            errDialog.setVisible(true);
+            errDialog.setAlwaysOnTop(true);
+            //Only closable via button because i dont know how to call function
+            errDialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            this.setEnabled(false);
+        } 
     }
     //Enable Parent even if force closed via statusbar, discards changes
     @Override

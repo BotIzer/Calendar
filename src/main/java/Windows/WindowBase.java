@@ -5,6 +5,7 @@ import java.awt.*;
 public class WindowBase extends JFrame {
     //Constant for screen size
     static Dimension _resolution = new Dimension(1024, 768);
+    static String dateOutFormat = "yyyy.MM.dd HH:dd";
     //Singleton, this is the active frame
     private static WindowBase active;
     //Active frame getter, returns main menu if active is null

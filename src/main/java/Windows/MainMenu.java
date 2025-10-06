@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 
@@ -27,8 +28,8 @@ public class MainMenu extends WindowBase {
         this.setLayout(new GridLayout(3, 1, 20, 20));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Components
-        JLabel title = new JLabel("Calendar");
         JPanel calendar = new JPanel();
+        JLabel today = new JLabel(LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
         calendar.setLayout(new GridLayout(1,7));
         JButton newTaskBtn = new JButton("Add Task");
         //Fill calendar with tasks
@@ -38,10 +39,11 @@ public class MainMenu extends WindowBase {
         }
         //Styling
         calendar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setVerticalAlignment(JLabel.TOP);
+        today.setHorizontalAlignment(JLabel.CENTER);
+        today.setVerticalAlignment(JLabel.CENTER);
+        today.setFont(new Font("Times New Roman", Font.BOLD, 100));
         //Add components to frame
-        this.add(title);
+        this.add(today);
         this.add(calendar);
         this.add(newTaskBtn);
         this.setVisible(true);
