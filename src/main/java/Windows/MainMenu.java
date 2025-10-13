@@ -1,40 +1,49 @@
 package src.main.java.windows;
 import javax.swing.*;
 
+import src.main.java.models.*;
+
 import java.awt.*;
+import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-
-import src.main.java.Models.*;
+import java.util.List;
 
 public class MainMenu extends WindowBase {
-    //TEST DATA remove later
-    public static ArrayList<Task> data = new ArrayList<>();
-    
+    private static JPanel calendar;
+    private static JLabel today;
     public MainMenu() {
         
-        //remove later
+        //Test data, remove later
         for (int i = 0; i < 3; i++) {
-            data.add(new Task("Test" + i, LocalDateTime.now()));
+            Task.addTask(new Task("Test" + i, LocalDateTime.now()));
+            System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.getDateFormat())));
         }
-        data.add(new Task("Test2", LocalDateTime.now().plusHours(4)));
+        Task.addTask(new Task("Test2", LocalDateTime.now().plusHours(4)));
 
         //Configuration of behaviour
-        this.setSize(_resolution);
+        this.setSize(resolution);
         this.setTitle("Calendar");
         this.setLayout(new GridLayout(3, 1, 20, 20));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Components
-        JPanel calendar = new JPanel();
-        JLabel today = new JLabel(LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
+        calendar = new JPanel();
+        today = new JLabel(LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
         calendar.setLayout(new GridLayout(1,7));
         JButton newTaskBtn = new JButton("Add Task");
         //Fill calendar with tasks
         for (int i = 1; i < 8; i++) {
-            DayContainer dc = new DayContainer(DayOfWeek.of(i).getDisplayName(TextStyle.FULL, getLocale()), data);
+            ArrayList<Task> dayList = new ArrayList<>();
+            for (Task task : Task.getTasks()) {
+                if (task.getStart().getDayOfWeek().getValue() == i) {
+                    dayList.add(task);
+                    System.out.println(task.getStart().format(DateTimeFormatter.ofPattern(WindowBase.getDateFormat())));
+                }
+            }
+            DayContainer dc = new DayContainer(DayOfWeek.of(i).getDisplayName(TextStyle.FULL, getLocale()), dayList);
             calendar.add(dc);
         }
         //Styling
@@ -48,5 +57,22 @@ public class MainMenu extends WindowBase {
         this.add(newTaskBtn);
         this.setVisible(true);
     }
-        
+    @Override
+    public void refresh(List<Task> tl) {
+        calendar.removeAll();
+        for (int i = 1; i < 8; i++) {
+            ArrayList<Task> dayList = new ArrayList<>();
+            for (Task task : Task.getTasks()) {
+                if (task.getStart().getDayOfWeek().getValue() == i) {
+                    dayList.add(task);
+                }
+            }
+            DayContainer dc = new DayContainer(DayOfWeek.of(i).getDisplayName(TextStyle.FULL, getLocale()), dayList);
+            calendar.add(dc);
+        }
+        calendar.repaint();
+        calendar.revalidate();
+        this.repaint();
+        this.revalidate();
+    }
 }

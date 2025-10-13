@@ -14,8 +14,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
-
-import src.main.java.Models.Task;
+import src.main.java.models.Task;
 //Dialog popup for tasks and modifications
 public class Details extends JDialog {
     //Input fields to get updated data from, need to access in onClick function
@@ -79,6 +78,8 @@ public class Details extends JDialog {
             task.setEnd(Task.stringToLocalDate(newEnd.getText()));
             task.setPrio(newPriority.isSelected());
             WindowBase.getInstance().setEnabled(true);
+            Task.setTask(task);
+            WindowBase.getInstance().refresh(Task.getTasks());
             dispose();
         } catch (Exception e) {
             JDialog errDialog = new JDialog();

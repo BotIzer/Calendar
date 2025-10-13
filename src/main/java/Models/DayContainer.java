@@ -1,4 +1,4 @@
-package src.main.java.Models;
+package src.main.java.models;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class DayContainer extends JPanel{
     //Container for a day
-    public DayContainer(String label, ArrayList<Task> tasks){
+    public DayContainer(String label, java.util.List<Task> tasks){
         //Layout configuration
         this.setLayout(new GridLayout(5, 1));
         //Divide task to timeslots
@@ -37,8 +37,8 @@ public class DayContainer extends JPanel{
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);
         TaskContainer nightContainer = new TaskContainer(night);
         //Styling
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setVerticalAlignment(JLabel.CENTER);
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         title.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         //Add components to Container
         this.add(title);

@@ -1,9 +1,10 @@
-package src.main.java.Models;
+package src.main.java.models;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -13,16 +14,17 @@ import javax.swing.JPanel;
 
 import src.main.java.windows.Details;
 
+
 public class TaskContainer extends JPanel{
     //Argument is the list of tasks for current time of day (morning/noon/afternoon/night)
-    public TaskContainer(ArrayList<Task> tl){
+    public TaskContainer(List<Task> tl){
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         //Button for individual tasks, shows details dialog on click
         JButton tb = new JButton();
         tb.setFocusable(false);
-        if (tl.size() > 2) {
+        if (tl.size() >= 2) {
             //Layout configuration if there are multiple tasks
             gc.gridwidth = 2;
             gc.fill = GridBagConstraints.BOTH;

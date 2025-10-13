@@ -1,11 +1,18 @@
-package src.main.java.Models;
+package src.main.java.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
+
+import src.main.java.windows.WindowBase;
 
 public class Task {
+    //index incrementer
     static int idxIncr = 0;
+    //Main collection for project, this data is shown on windows
+    private static List<Task> data = new ArrayList<>();
     //Start and end time of task
     private int id;
     private LocalDateTime start;
@@ -16,7 +23,7 @@ public class Task {
     //Importance of task
     private boolean priority;
 
-    public Task(){};
+    public Task(){}
     public Task(LocalDateTime s, LocalDateTime e, String t, String d){
         start = s;
         end = e;
@@ -41,14 +48,20 @@ public class Task {
     public String getTitle(){return title;}
     public String getDescription(){return description;}
     public boolean getPriority(){return priority;}
+
+    public static List<Task> getTasks(){
+        return Task.data;
+    }
     //Setters and data constraints
     public void setStart(LocalDateTime ns){
+        
         if (ns.isBefore(LocalDateTime.now())) {
-            throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
+            throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.getDateFormat())) + ")");
         }
         start = ns;
     }
     public void setEnd(LocalDateTime ne){
+        
         if (ne.isBefore(LocalDateTime.now())) {
             if (start != null && ne.isBefore(start)) {
                 throw new InputMismatchException("End date cannot be before start date (" + start.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
@@ -77,5 +90,17 @@ public class Task {
             dateData[i] = Integer.parseInt(date.split("[.\\:\\s]")[i]);
         }
         return LocalDateTime.of(dateData[0],dateData[1],dateData[2],dateData[3],dateData[4]);
+    }
+    
+    
+    public static void addTask(Task t){
+        Task.data.add(t);
+    }
+    public static void setTask(Task t){
+        for (int i = 0; i < Task.data.size(); i++) {
+            if (Task.data.get(i).getId() == t.getId()) {
+                Task.data.set(i, t);
+            }            
+        }
     }
 }
