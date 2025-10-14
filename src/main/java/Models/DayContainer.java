@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class DayContainer extends JPanel{
     //Container for a day
-    public DayContainer(String label, java.util.List<Task> tasks){
+    public DayContainer(String dayString, String dateString, java.util.List<Task> tasks){
         //Layout configuration
         this.setLayout(new GridLayout(5, 1));
         //Divide task to timeslots
@@ -31,16 +31,23 @@ public class DayContainer extends JPanel{
             } 
         }        
         //Component declaration
-        JLabel title = new JLabel(label);
+        JLabel day = new JLabel(dayString);
+        JLabel date = new JLabel(dateString);
+        JPanel title = new JPanel();
+        title.setLayout(new GridLayout(2,1));
         TaskContainer morningContainer = new TaskContainer(morning);
         TaskContainer noonContainer = new TaskContainer(noon);
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);
         TaskContainer nightContainer = new TaskContainer(night);
         //Styling
-        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        day.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        day.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         title.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         //Add components to Container
+        title.add(day);
+        title.add(date);
         this.add(title);
         this.add(morningContainer);
         this.add(noonContainer);

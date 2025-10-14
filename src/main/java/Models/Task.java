@@ -1,5 +1,6 @@
 package src.main.java.models;
 
+import java.awt.Window;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -84,12 +85,16 @@ public class Task {
         priority = np;
     }
 
-    public static LocalDateTime stringToLocalDate(String date){
-        int[] dateData = new int[5];
-        for (int i = 0; i < 5; i++) {
-            dateData[i] = Integer.parseInt(date.split("[.\\:\\s]")[i]);
+    public static LocalDateTime stringToLocalDate(String date) throws InputMismatchException{
+        try {
+            int[] dateData = new int[5];
+            for (int i = 0; i < 5; i++) {
+                dateData[i] = Integer.parseInt(date.split("[.\\:\\s]")[i]);
+            }
+            return LocalDateTime.of(dateData[0],dateData[1],dateData[2],dateData[3],dateData[4]);
+        } catch (Exception e) {
+            throw new InputMismatchException("Given date is in the wrong format (" + WindowBase.getDateFormat() + ") ");
         }
-        return LocalDateTime.of(dateData[0],dateData[1],dateData[2],dateData[3],dateData[4]);
     }
     
     

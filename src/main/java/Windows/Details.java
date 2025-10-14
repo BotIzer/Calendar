@@ -12,6 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import src.main.java.models.Task;
@@ -21,8 +22,8 @@ public class Details extends JDialog {
     static JTextPane newTitle = new JTextPane();
     static JTextPane newDesc = new JTextPane();
     static JCheckBox newPriority = new JCheckBox();
-    static JFormattedTextField newStart = new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JFormattedTextField newEnd = new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    static JTextPane newStart = new JTextPane();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    static JTextPane newEnd = new JTextPane();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
 
     public Details(Task task){
         //Disable parent until dialog is closed
@@ -45,15 +46,19 @@ public class Details extends JDialog {
         newPriority.setSelected(task.getPriority());
         newStart.setText(task.getStart().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
         newEnd.setText(task.getEnd().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
-        JButton ok = new JButton("Ok");
-        
+
+        JButton close = new JButton("Close");
+        JButton save = new JButton("Save");
+
         //Styling
         Border border = BorderFactory.createLineBorder(Color.black);
         newTitle.setBorder(border);
         newDesc.setBorder(border);
-        ok.setAlignmentY(BOTTOM_ALIGNMENT);
+        close.setAlignmentY(BOTTOM_ALIGNMENT);
         //Eventlisteners
-        ok.addActionListener(e -> onClick(task));
+        close.addActionListener(e -> {this.dispose();
+                                   WindowBase.getInstance().setEnabled(true);});
+        save.addActionListener(e -> onClick(task));
         //Adding individual components
         this.add(title);
         this.add(newTitle);
@@ -65,7 +70,8 @@ public class Details extends JDialog {
         this.add(newEnd);
         this.add(priority);
         this.add(newPriority);
-        this.add(ok);
+        this.add(save);
+        this.add(close);
         this.setVisible(true);
         
     }
@@ -77,6 +83,8 @@ public class Details extends JDialog {
             task.setStart(Task.stringToLocalDate(newStart.getText()));
             task.setEnd(Task.stringToLocalDate(newEnd.getText()));
             task.setPrio(newPriority.isSelected());
+            
+            
             WindowBase.getInstance().setEnabled(true);
             Task.setTask(task);
             WindowBase.getInstance().refresh(Task.getTasks());
