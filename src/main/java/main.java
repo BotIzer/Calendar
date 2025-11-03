@@ -1,6 +1,6 @@
 package src.main.java;
 
-import src.main.java.windows.*;
+import src.main.java.views.*;
 
 public class Main {
  

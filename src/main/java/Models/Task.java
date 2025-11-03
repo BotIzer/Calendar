@@ -1,19 +1,14 @@
 package src.main.java.models;
 
-import java.awt.Window;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 
-import src.main.java.windows.WindowBase;
 
 public class Task {
     //index incrementer
     static int idxIncr = 0;
     //Main collection for project, this data is shown on windows
-    private static List<Task> data = new ArrayList<>();
     //Start and end time of task
     private int id;
     private LocalDateTime start;
@@ -50,14 +45,12 @@ public class Task {
     public String getDescription(){return description;}
     public boolean getPriority(){return priority;}
 
-    public static List<Task> getTasks(){
-        return Task.data;
-    }
+
     //Setters and data constraints
     public void setStart(LocalDateTime ns){
         
         if (ns.isBefore(LocalDateTime.now())) {
-            throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(WindowBase.getDateFormat())) + ")");
+            throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
         }
         start = ns;
     }
@@ -84,6 +77,14 @@ public class Task {
     public void setPrio(boolean np){
         priority = np;
     }
+    public static void setTask(Task t){
+        for (int i = 0; i < Model.tasks.size(); i++) {
+            if (Model.tasks.get(i).getId() == t.getId()) {
+                Model.tasks.set(i, t);
+                break;
+            }            
+        }
+    }
 
     public static LocalDateTime stringToLocalDate(String date) throws InputMismatchException{
         try {
@@ -93,19 +94,10 @@ public class Task {
             }
             return LocalDateTime.of(dateData[0],dateData[1],dateData[2],dateData[3],dateData[4]);
         } catch (Exception e) {
-            throw new InputMismatchException("Given date is in the wrong format (" + WindowBase.getDateFormat() + ") ");
+            throw new InputMismatchException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
         }
     }
     
-    
-    public static void addTask(Task t){
-        Task.data.add(t);
-    }
-    public static void setTask(Task t){
-        for (int i = 0; i < Task.data.size(); i++) {
-            if (Task.data.get(i).getId() == t.getId()) {
-                Task.data.set(i, t);
-            }            
-        }
-    }
+
+
 }

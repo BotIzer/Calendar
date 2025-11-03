@@ -1,21 +1,21 @@
-package src.main.java.windows;
+package src.components;
 
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
+
+import src.main.java.models.Model;
 import src.main.java.models.Task;
+import src.main.java.views.WindowBase;
 //Dialog popup for tasks and modifications
 public class Details extends JDialog {
     //Input fields to get updated data from, need to access in onClick function
@@ -44,8 +44,8 @@ public class Details extends JDialog {
         newTitle.setText(task.getTitle());
         newDesc.setText(task.getDescription());
         newPriority.setSelected(task.getPriority());
-        newStart.setText(task.getStart().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
-        newEnd.setText(task.getEnd().format(DateTimeFormatter.ofPattern(WindowBase.dateOutFormat)));
+        newStart.setText(task.getStart().format(DateTimeFormatter.ofPattern(Model.getDateFormat() + " HH:mm")));
+        newEnd.setText(task.getEnd().format(DateTimeFormatter.ofPattern(Model.getDateFormat() + " HH:mm")));
 
         JButton close = new JButton("Close");
         JButton save = new JButton("Save");
@@ -87,14 +87,14 @@ public class Details extends JDialog {
             
             WindowBase.getInstance().setEnabled(true);
             Task.setTask(task);
-            WindowBase.getInstance().refresh(Task.getTasks());
+            WindowBase.getInstance().refresh();
             dispose();
         } catch (Exception e) {
             JDialog errDialog = new JDialog();
             errDialog.setLayout(new GridLayout(2,1));
             JLabel errLabel = new JLabel(e.getMessage());
             JButton ok = new JButton("Ok");
-            ok.addActionListener(a -> {this.setEnabled(true); errDialog.dispose();});
+            ok.addActionListener(ev -> {this.setEnabled(true); errDialog.dispose();});
             errDialog.setSize(errLabel.getPreferredSize().width + 100, 100);
             errDialog.setTitle("Error");
             errDialog.add(errLabel);

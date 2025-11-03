@@ -1,4 +1,4 @@
-package src.main.java.models;
+package src.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -12,7 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import src.main.java.windows.Details;
+import src.main.java.models.Task;
 
 
 public class TaskContainer extends JPanel{
