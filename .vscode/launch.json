@@ -4,18 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "java",
-            "name": "Main",
+            "name": "Current File",
             "request": "launch",
-            "mainClass": "src.main.java.Main",
-            "projectName": "Calendar_c18bca7b"
-        },
-        {
-            "type": "java",
-            "name": "main",
-            "request": "launch",
-            "mainClass": "src.main.java.Main"
+            "mainClass": "src.main.Main"
         }
     ]
 }

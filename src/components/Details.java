@@ -3,7 +3,10 @@ package src.components;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,6 +15,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import src.main.java.models.Model;
 import src.main.java.models.Task;
@@ -22,8 +28,8 @@ public class Details extends JDialog {
     static JTextPane newTitle = new JTextPane();
     static JTextPane newDesc = new JTextPane();
     static JCheckBox newPriority = new JCheckBox();
-    static JTextPane newStart = new JTextPane();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JTextPane newEnd = new JTextPane();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    static JDateChooser newStart ;//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    static JDateChooser newEnd ;//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
 
     public Details(Task task){
         //Disable parent until dialog is closed
@@ -31,7 +37,6 @@ public class Details extends JDialog {
         //Configuration of layout
         this.setLayout(new GridLayout(6, 2, 0,0));
         this.setName("Details");
-        this.setSize(250, 400);
         this.setTitle("Details");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Components in first column
@@ -40,12 +45,15 @@ public class Details extends JDialog {
         JLabel start = new JLabel("Start time:");
         JLabel end = new JLabel("End time:");
         JLabel priority = new JLabel("Priority:");
+        newStart = new JDateChooser(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()), Model.getDateFormat());
+        newStart.setMinSelectableDate(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()));
+        newEnd = new JDateChooser(Date.from(task.getEnd().atZone(ZoneId.systemDefault()).toInstant()), Model.getDateFormat());
+        newEnd.setMinSelectableDate(Date.from(task.getEnd().atZone(ZoneId.systemDefault()).toInstant()));
+        
         //Components in second column
         newTitle.setText(task.getTitle());
         newDesc.setText(task.getDescription());
         newPriority.setSelected(task.getPriority());
-        newStart.setText(task.getStart().format(DateTimeFormatter.ofPattern(Model.getDateFormat() + " HH:mm")));
-        newEnd.setText(task.getEnd().format(DateTimeFormatter.ofPattern(Model.getDateFormat() + " HH:mm")));
 
         JButton close = new JButton("Close");
         JButton save = new JButton("Save");
@@ -80,8 +88,9 @@ public class Details extends JDialog {
         try {
             task.setTitle(newTitle.getText());
             task.setDesc(newDesc.getText());
-            task.setStart(Task.stringToLocalDate(newStart.getText()));
-            task.setEnd(Task.stringToLocalDate(newEnd.getText()));
+            //task.setStart(Task.stringToLocalDate(newStart.getText()));
+            task.setStart(LocalDateTime.ofInstant(newStart.getDate().toInstant(), ZoneId.systemDefault()));
+            task.setEnd(LocalDateTime.ofInstant(newEnd.getDate().toInstant(), ZoneId.systemDefault()));
             task.setPrio(newPriority.isSelected());
             
             
