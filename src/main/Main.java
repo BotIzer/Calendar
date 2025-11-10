@@ -1,6 +1,6 @@
 package src.main;
 
-import src.main.java.views.WindowBase;
+import views.WindowBase;
 
 public class Main {
    public static void main(String[] args){

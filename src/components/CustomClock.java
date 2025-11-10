@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import src.main.java.models.Model;
+import models.Model;
+
 
 public class CustomClock extends JPanel{
     protected JLabel date = new JLabel();

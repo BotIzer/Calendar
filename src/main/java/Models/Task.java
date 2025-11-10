@@ -1,7 +1,9 @@
-package src.main.java.models;
+package models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.InputMismatchException;
 
 
@@ -12,17 +14,16 @@ public class Task {
     //Start and end time of task
     private int id;
     private LocalDateTime start;
-    //End equals start by default
-    private LocalDateTime end;
+    private Integer[] duration;
     private String title;
     private String description;
     //Importance of task
     private boolean priority;
 
     public Task(){}
-    public Task(LocalDateTime s, LocalDateTime e, String t, String d){
+    public Task(LocalDateTime s, Integer[] dur, String t, String d){
         start = s;
-        end = e;
+        duration = dur;
         title = t;
         description = d;
         id = idxIncr;
@@ -32,7 +33,7 @@ public class Task {
     public Task(String t, LocalDateTime date){
         title = t;
         start = date;
-        end = date;
+        duration = new Integer[]{1,5};
         description = null;
         id = idxIncr;
         idxIncr++;
@@ -40,37 +41,29 @@ public class Task {
     //Getters
     public int getId() {return id;}
     public LocalDateTime getStart(){return start;}
-    public LocalDateTime getEnd(){return end;}
+    public Integer[] getDuration(){return duration;}
     public String getTitle(){return title;}
     public String getDescription(){return description;}
     public boolean getPriority(){return priority;}
 
 
     //Setters and data constraints
-    public void setStart(LocalDateTime ns){
-        
-        if (ns.isBefore(LocalDateTime.now())) {
+    public void setTitle(String tit){
+        if(tit.trim().isEmpty()) throw new IllegalArgumentException("Title cannot be empty");
+        title = tit.trim();
+    }
+    public void setStart(LocalDateTime ns, LocalDateTime tmpNow){
+        if(ns.equals(start)) return;
+        if (ns.truncatedTo(ChronoUnit.MINUTES).isBefore(tmpNow.truncatedTo(ChronoUnit.MINUTES))) {
             throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
         }
         start = ns;
     }
-    public void setEnd(LocalDateTime ne){
-        
-        if (ne.isBefore(LocalDateTime.now())) {
-            if (start != null && ne.isBefore(start)) {
-                throw new InputMismatchException("End date cannot be before start date (" + start.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
-            }
-            throw new InputMismatchException("End date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
-        }
-        end = ne;
+    public void setDuration(Integer[] dur){
+        if (dur.length != 2) throw new IllegalArgumentException("Illegal duration");
+        if ((dur[0] < 0 || dur[0] > 24) && (dur[1] < 0 || dur[1] > 60)) throw new IllegalArgumentException("Illegal minute or hour");
+        duration = dur;
     }
-    public void setTitle(String nt){
-        if (nt.isEmpty() || nt.trim().equals("")) {
-            throw new InputMismatchException("Title cannot be empty");
-        }
-        title = nt;
-    }
-    //Description can be empty
     public void setDesc(String nd){
         description = nd;
     }

@@ -8,7 +8,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.main.java.models.Task;
+import models.Task;
+
 
 public class DayContainer extends JPanel{
     //Container for a day

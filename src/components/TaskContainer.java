@@ -12,12 +12,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import src.main.java.models.Task;
+import models.Task;
 
 
 public class TaskContainer extends JPanel{
     //Argument is the list of tasks for current time of day (morning/noon/afternoon/night)
-    public TaskContainer(List<Task> tl){
+    public TaskContainer(List<models.Task> tl){
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();

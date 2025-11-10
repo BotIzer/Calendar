@@ -1,4 +1,4 @@
-package src.main.java.views;
+package views;
 import javax.swing.*;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class WindowBase extends JFrame {
     //Active frame getter, returns main menu if active is null
     public static WindowBase getInstance(){
        if (active == null) {
-           active = new WeekView();
+           active = new MainFrame();
        }
        return active;
     }

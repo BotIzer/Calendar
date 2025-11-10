@@ -1,17 +1,18 @@
-package src.main.java.views;
+package views;
 import javax.swing.*;
 
+import models.Model;
+import models.Task;
 import src.components.CalendarTable;
 import src.components.CustomClock;
-import src.main.java.models.*;
 
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class WeekView extends WindowBase {
+public class MainFrame extends WindowBase {
     private static CalendarTable calendar;
     private static CustomClock clock;
-    public WeekView() {
+    public MainFrame() {
         
         //Test data, remove later
         for (int i = 0; i < 3; i++) {
@@ -29,7 +30,7 @@ public class WeekView extends WindowBase {
         clock = new CustomClock();
         calendar.setLayout(new GridLayout(1,7));
         JButton newTaskBtn = new JButton("Add Task");
-        newTaskBtn.addActionListener(e -> clock.refresh());
+        newTaskBtn.addActionListener(e -> {calendar.removeAll(); this.refresh();});
 
 
 
