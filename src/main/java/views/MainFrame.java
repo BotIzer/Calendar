@@ -1,10 +1,10 @@
 package views;
 import javax.swing.*;
 
+import components.CalendarTable;
+import components.CustomClock;
 import models.Model;
 import models.Task;
-import src.components.CalendarTable;
-import src.components.CustomClock;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class MainFrame extends WindowBase {
     private static CalendarTable calendar;
     private static CustomClock clock;
+    private static View view = View.MONTH;
     public MainFrame() {
         
         //Test data, remove later
@@ -23,14 +24,11 @@ public class MainFrame extends WindowBase {
         //Configuration of behaviour
         this.setSize(WindowBase.resolution);
         this.setTitle("Calendar");
-        this.setLayout(new GridLayout(3, 1, 20, 20));
+        this.setLayout(new GridLayout(2, 1));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Components
-        calendar = new CalendarTable(View.WEEK);
+        calendar = new CalendarTable(view);
         clock = new CustomClock();
-        calendar.setLayout(new GridLayout(1,7));
-        JButton newTaskBtn = new JButton("Add Task");
-        newTaskBtn.addActionListener(e -> {calendar.removeAll(); this.refresh();});
 
 
 
@@ -38,13 +36,12 @@ public class MainFrame extends WindowBase {
         //Add components to frame
         this.add(clock);
         this.add(calendar);
-        this.add(newTaskBtn);
         this.setVisible(true);
     }
     //refresh view calendar
     @Override
     public void refresh() {
-        calendar.refresh();
+        calendar.refresh(view);
         this.repaint();
         this.revalidate();
     }

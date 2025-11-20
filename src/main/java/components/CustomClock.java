@@ -1,4 +1,4 @@
-package src.components;
+package components;
 
 import java.awt.Font;
 import java.awt.GridLayout;

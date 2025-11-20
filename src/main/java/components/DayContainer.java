@@ -1,19 +1,34 @@
-package src.components;
+package components;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import models.Task;
+import views.WindowBase.View;
 
 
 public class DayContainer extends JPanel{
+    private ArrayList<Task> tasks;
     //Container for a day
-    public DayContainer(String dayString, String dateString, java.util.List<Task> tasks){
+    public DayContainer(String dayString, String dateString, List<Task> dayTasks, View v){
+        tasks = new ArrayList<>(dayTasks);
+        if (v == View.WEEK) buildWeek(dayString, dateString);
+        if (v == View.MONTH) buildMonth(dayString, dateString);
+        if (v == View.YEAR) ;//TODO buildyear;
+        
+   }
+    private void buildWeek(String dayString, String dateString){
         //Layout configuration
         this.setLayout(new GridLayout(5, 1));
         //Divide task to timeslots
@@ -56,5 +71,34 @@ public class DayContainer extends JPanel{
         this.add(noonContainer);
         this.add(afterNoonContainer);
         this.add(nightContainer);
+ 
     }
+    private void buildMonth(String dayString, String dateString){
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        JLabel day = new JLabel(dayString);
+        JLabel date = new JLabel(dateString);
+        day.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        day.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        gc.fill = gc.BOTH;
+        gc.weightx = 1;
+        gc.gridy = 0;
+        this.add(date, gc);
+        gc.gridy = 1;
+        JLabel separator = new JLabel();
+        separator.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.add(separator, gc);
+        gc.gridy = 2;
+        this.add(day, gc);
+        if (!tasks.isEmpty()) {
+            JButton showTasks = new JButton(String.valueOf(tasks.size())); 
+            gc.weighty = 1;
+            gc.gridy = 3;
+            this.add(showTasks, gc);
+        }
+    }
+
 }
