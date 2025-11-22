@@ -1,7 +1,6 @@
 package components;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,11 +9,15 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.WindowConstants;
 
 import models.Task;
+import models.TaskTableModel;
 import views.WindowBase.View;
 
 
@@ -94,11 +97,24 @@ public class DayContainer extends JPanel{
         gc.gridy = 2;
         this.add(day, gc);
         if (!tasks.isEmpty()) {
-            JButton showTasks = new JButton(String.valueOf(tasks.size())); 
+            JButton showTasks = new JButton(String.valueOf(tasks.size()));
+            showTasks.addActionListener(e -> monthButtonClick(dateString + " - " + dayString, tasks)); 
             gc.weighty = 1;
             gc.gridy = 3;
             this.add(showTasks, gc);
         }
+    }
+
+    private void monthButtonClick(String title, List<Task> tasks){
+        JDialog tasksOfDay = new JDialog();
+        tasksOfDay.setTitle(title);
+        JTable tableOfTasks = new JTable(new TaskTableModel(tasks));
+        JScrollPane scroll = new JScrollPane(tableOfTasks);
+        tasksOfDay.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); 
+        tasksOfDay.add(scroll);
+        tasksOfDay.pack();
+        tasksOfDay.setVisible(true);
+        tasksOfDay.setResizable(false);
     }
 
 }

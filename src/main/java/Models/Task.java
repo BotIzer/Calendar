@@ -7,6 +7,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.InputMismatchException;
 
 
+
 public class Task {
     //index incrementer
     static int idxIncr = 0;
@@ -90,7 +91,4 @@ public class Task {
             throw new InputMismatchException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
         }
     }
-    
-
-
 }

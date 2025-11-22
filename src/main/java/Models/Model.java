@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+
 
 
 public class Model {
@@ -17,4 +20,5 @@ public class Model {
     public static String getTimeFormat(){
         return Model.timeOutFormat;
     }
+    
 }

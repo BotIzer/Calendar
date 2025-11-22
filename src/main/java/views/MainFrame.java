@@ -10,9 +10,9 @@ import java.awt.*;
 import java.time.LocalDateTime;
 
 public class MainFrame extends WindowBase {
-    private static CalendarTable calendar;
-    private static CustomClock clock;
-    private static View view = View.MONTH;
+    private CalendarTable calendar;
+    private CustomClock clock;
+    private View view = View.MONTH;
     public MainFrame() {
         
         //Test data, remove later
@@ -24,9 +24,24 @@ public class MainFrame extends WindowBase {
         //Configuration of behaviour
         this.setSize(WindowBase.resolution);
         this.setTitle("Calendar");
-        this.setLayout(new GridLayout(2, 1));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //Components
+        JMenuBar menuBar = new JMenuBar();
+        JMenu views = new JMenu("View");
+        JMenuItem week = new JMenuItem("Week");
+        JMenuItem month = new JMenuItem("Month");
+        //TODO year
+        JMenuItem year = new JMenuItem("Year");
+        week.addActionListener(e -> switchView(View.WEEK));
+        month.addActionListener(e -> switchView(View.MONTH));
+        year.addActionListener(e -> switchView(View.YEAR));
+        
+        views.add(week);
+        views.add(month);
+        views.add(year);
+        menuBar.add(views);
         calendar = new CalendarTable(view);
         clock = new CustomClock();
 
@@ -34,14 +49,26 @@ public class MainFrame extends WindowBase {
 
 
         //Add components to frame
-        this.add(clock);
-        this.add(calendar);
+        this.setJMenuBar(menuBar);
+        gc.gridy = 0;
+        gc.weightx = 1;
+        gc.fill = GridBagConstraints.BOTH;
+        this.add(clock,gc);
+        gc.weighty = 1;
+        gc.gridy = 1;
+        this.add(calendar,gc);
         this.setVisible(true);
     }
     //refresh view calendar
     @Override
     public void refresh() {
         calendar.refresh(view);
+        this.repaint();
+        this.revalidate();
+    }
+    private void switchView(View v){
+        this.view = v;
+        calendar.refresh(v);
         this.repaint();
         this.revalidate();
     }
