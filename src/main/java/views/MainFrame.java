@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class MainFrame extends WindowBase {
     private CalendarTable calendar;
     private CustomClock clock;
-    private View view = View.MONTH;
+    private View view = View.WEEK;
     public MainFrame() {
         
         //Test data, remove later
