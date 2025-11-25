@@ -10,6 +10,7 @@ import models.Model;
 import models.Task;
 import views.WindowBase;
 
+//Context menu for task
 public class ContextMenu extends JMenu{
     public ContextMenu(Task task){
         this.setText(task.getTitle());

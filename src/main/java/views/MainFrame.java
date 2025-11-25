@@ -58,7 +58,6 @@ public class MainFrame extends WindowBase {
         this.add(calendar,gc);
         this.setVisible(true);
     }
-    //refresh view calendar
     @Override
     public void refresh() {
         calendar.refresh(view);
@@ -73,7 +72,6 @@ public class MainFrame extends WindowBase {
     }
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
         super.dispose();
         FileHandler.writeToJson(Model.tasks);
         System.exit(0);

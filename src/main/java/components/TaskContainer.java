@@ -13,9 +13,8 @@ import javax.swing.JPanel;
 
 import models.Task;
 
-
+//Container that displays a task, or list if there are multiple that wouldnt fit
 public class TaskContainer extends JPanel{
-    //Argument is the list of tasks for current time of day (morning/noon/afternoon/night)
     public TaskContainer(List<models.Task> tl){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -27,26 +26,21 @@ public class TaskContainer extends JPanel{
             menugc.weighty = 1;
             menugc.weightx = 1;
             menugc.gridx = 0;
-            //Layout configuration if there are multiple tasks
             ContextMenu context = new ContextMenu(tl.get(0));
-            //Priority Styling
             if (tl.get(0).getPriority()) {
                 container.setBackground(Color.RED);
             } else {
                 container.setBackground(Color.CYAN);
             }
+            JMenu showMore = new JMenu("+" + (tl.size() - 1));
+            for (Task task : tl.subList(1, tl.size())) {
+                ContextMenu subContext = new ContextMenu(task);
+                showMore.add(subContext);
+            }
             gc.fill = GridBagConstraints.BOTH;
             gc.weightx = 1;
             gc.weighty = 1;
             container.add(context, menugc);
-            //"Dropdown menu" if there are multiple tasks that would not fit otherwise
-            JMenu showMore = new JMenu("+" + (tl.size() - 1));
-            for (Task task : tl.subList(1, tl.size())) {
-                //Loop through tasks and create a contextmenu for each
-                ContextMenu subContext = new ContextMenu(task);
-                showMore.add(subContext);
-            }
-            //Allocate all leftover space to task button
             menugc.gridx = 1;
             menugc.weightx = 0;
             showMore.setOpaque(true);
@@ -57,7 +51,6 @@ public class TaskContainer extends JPanel{
             container.add(showMore, menugc);
             this.add(container, gc);
         }else if(!tl.isEmpty()){
-            //Layout for single task slots
             gc.fill = GridBagConstraints.BOTH;
             gc.weighty = 1;
             gc.weightx = 1;

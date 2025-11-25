@@ -20,10 +20,9 @@ import models.Task;
 import models.TaskTableModel;
 import views.WindowBase.View;
 
-
+//Container for day in table
 public class DayContainer extends JPanel{
     private ArrayList<Task> tasks;
-    //Container for a day
     public DayContainer(String dayString, String dateString, List<Task> dayTasks, View v){
         tasks = new ArrayList<>(dayTasks);
         if (v == View.WEEK) buildWeek(dayString, dateString);
@@ -32,9 +31,7 @@ public class DayContainer extends JPanel{
         
    }
     private void buildWeek(String dayString, String dateString){
-        //Layout configuration
         this.setLayout(new GridLayout(5, 1));
-        //Divide task to timeslots
         ArrayList<Task> morning = new ArrayList<>();
         ArrayList<Task> noon = new ArrayList<>();
         ArrayList<Task> afterNoon = new ArrayList<>();
@@ -51,7 +48,7 @@ public class DayContainer extends JPanel{
                 night.add(task);
             } 
         }        
-        //Component declaration
+        
         JLabel day = new JLabel(dayString);
         JLabel date = new JLabel(dateString);
         JPanel title = new JPanel();
@@ -60,13 +57,13 @@ public class DayContainer extends JPanel{
         TaskContainer noonContainer = new TaskContainer(noon);
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);
         TaskContainer nightContainer = new TaskContainer(night);
-        //Styling
+        
         day.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         day.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         title.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        //Add components to Container
+        
         title.add(day);
         title.add(date);
         this.add(title);

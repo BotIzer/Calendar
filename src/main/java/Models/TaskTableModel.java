@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
-
+//Table display class
 public class TaskTableModel extends AbstractTableModel {
         private ArrayList<Task> subTasks; 
         public TaskTableModel(List<Task> t){

@@ -24,28 +24,24 @@ import models.Task;
 import views.WindowBase;
 
 //Dialog popup for tasks and modifications
+//Shows a popup menu with data of task, disables parent until closed
 public class Details extends JDialog {
-    //Input fields to get updated data from, need to access in onClick function
     JTextPane newTitle = new JTextPane();
     JTextPane newDesc = new JTextPane();
     JCheckBox newPriority = new JCheckBox();
-    JDateChooser newStart ;//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    JComboBox<Integer> startMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    JComboBox<Integer> startHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    JComboBox<Integer> durationMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    JComboBox<Integer> durationHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-
+    JDateChooser newStart;
+    JComboBox<Integer> startMinute = new JComboBox<Integer>();
+    JComboBox<Integer> startHour = new JComboBox<Integer>();
+    JComboBox<Integer> durationMinute = new JComboBox<Integer>();
+    JComboBox<Integer> durationHour = new JComboBox<Integer>();
 
 
     public Details(Task task){
-        //Disable parent until dialog is closed
         WindowBase.getInstance().setEnabled(false);
-        //Configuration of layout
         this.setLayout(new GridLayout(7, 2, 5,5));
         this.setName("Details");
         this.setTitle("Details");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //Components in first column
         JLabel title = new JLabel("Title:");
         JLabel desc = new JLabel("Description:");
         JLabel start = new JLabel("Start date:");
@@ -55,7 +51,6 @@ public class Details extends JDialog {
         newStart = new JDateChooser(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()), Model.getDateFormat());
         newStart.setMinSelectableDate(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()));
         
-        //Components in second column
         newTitle.setText(task.getTitle());
         newDesc.setText(task.getDescription());
         newPriority.setSelected(task.getPriority());
@@ -84,16 +79,17 @@ public class Details extends JDialog {
         JButton close = new JButton("Close");
         JButton save = new JButton("Save");
 
-        //Styling
         Border border = BorderFactory.createLineBorder(Color.black);
         newTitle.setBorder(border);
         newDesc.setBorder(border);
         close.setAlignmentY(BOTTOM_ALIGNMENT);
-        //Eventlisteners
-        close.addActionListener(e -> {this.dispose();
-                                   WindowBase.getInstance().setEnabled(true);});
+        
+        close.addActionListener(e -> {
+                                        this.dispose();
+                                        WindowBase.getInstance().setEnabled(true);
+                                     });
         save.addActionListener(e -> onClick(task));
-        //Adding individual components
+        
         this.add(title);
         this.add(newTitle);
         this.add(desc);

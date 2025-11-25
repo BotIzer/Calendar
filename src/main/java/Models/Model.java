@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 
 public class Model {
+    //constants and variables used across the project
     protected static String dateOutFormat = "yyyy.MM.dd";
     protected static String timeOutFormat = "HH:mm:ss";
     public static LocalDateTime now = LocalDateTime.now();

@@ -1,17 +1,14 @@
 package views;
 import javax.swing.*;
 
-import models.Model;
 
 import java.awt.*;
 
 //Base class for frames that all custom frames inherit
 public class WindowBase extends JFrame {
-    //Constant for screen size
     static Dimension resolution = new Dimension(1024, 768);
-    //Singleton, this is the active frame
+    //Singleton for active frame
     private static WindowBase active;
-    //enum for views
     public enum View{
         WEEK,
         MONTH,

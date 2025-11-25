@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 import models.Model;
 
-
+//Dynamically changing clock, refreshes every 100 ms
 public class CustomClock extends JPanel{
     protected JLabel date = new JLabel();
     protected JLabel time = new JLabel();
