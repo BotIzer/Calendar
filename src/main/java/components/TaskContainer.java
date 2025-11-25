@@ -11,11 +11,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import models.Model;
 import models.Task;
 
 //Container that displays a task, or list if there are multiple that wouldnt fit
 public class TaskContainer extends JPanel{
     public TaskContainer(List<models.Task> tl){
+        this.setBackground(Model.BackGround);
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         if (tl.size() >= 2) {
@@ -30,7 +32,7 @@ public class TaskContainer extends JPanel{
             if (tl.get(0).getPriority()) {
                 container.setBackground(Color.RED);
             } else {
-                container.setBackground(Color.CYAN);
+                container.setBackground(Model.Primary);
             }
             JMenu showMore = new JMenu("+" + (tl.size() - 1));
             for (Task task : tl.subList(1, tl.size())) {
@@ -46,7 +48,7 @@ public class TaskContainer extends JPanel{
             showMore.setOpaque(true);
             showMore.setBackground(Color.LIGHT_GRAY);
             context.setOpaque(true);
-            context.setBackground(Color.CYAN);
+            context.setBackground(Model.Primary);
             container.setOpaque(false); 
             container.add(showMore, menugc);
             this.add(container, gc);

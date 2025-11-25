@@ -2,7 +2,8 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
+import java.awt.Color;
+import java.awt.color.*;
 
 
 
@@ -18,5 +19,6 @@ public class Model {
     public static String getTimeFormat(){
         return Model.timeOutFormat;
     }
-    
+    public static Color Primary = new Color(0, 122, 204);
+    public static Color BackGround = new Color(30,30,30);  
 }

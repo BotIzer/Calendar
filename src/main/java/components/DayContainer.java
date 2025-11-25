@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
+import models.Model;
 import models.Task;
 import models.TaskTableModel;
 import views.WindowBase.View;
@@ -24,6 +25,7 @@ import views.WindowBase.View;
 public class DayContainer extends JPanel{
     private ArrayList<Task> tasks;
     public DayContainer(String dayString, String dateString, List<Task> dayTasks, View v){
+        this.setBackground(Model.BackGround);
         tasks = new ArrayList<>(dayTasks);
         if (v == View.WEEK) buildWeek(dayString, dateString);
         if (v == View.MONTH) buildMonth(dayString, dateString);
@@ -53,6 +55,9 @@ public class DayContainer extends JPanel{
         JLabel date = new JLabel(dateString);
         JPanel title = new JPanel();
         title.setLayout(new GridLayout(2,1));
+        title.setBackground(Model.BackGround);
+        day.setForeground(Color.WHITE);
+        date.setForeground(Color.WHITE);
         TaskContainer morningContainer = new TaskContainer(morning);
         TaskContainer noonContainer = new TaskContainer(noon);
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);

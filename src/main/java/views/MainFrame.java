@@ -24,6 +24,7 @@ public class MainFrame extends WindowBase {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setBackground(Model.BackGround);
         //Components
         JMenuBar menuBar = new JMenuBar();
         JMenu views = new JMenu("View");

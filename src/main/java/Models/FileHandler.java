@@ -27,7 +27,6 @@ public class FileHandler {
     public static void readFromJson(){
         try {
             BufferedReader br = new BufferedReader(new FileReader("tasks.json"));
-            br.readLine();
             ArrayList<Task> tasks = new ArrayList<>();
             String entry;
             

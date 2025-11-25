@@ -20,6 +20,7 @@ public class CalendarTable extends JPanel{
     protected View view = View.WEEK;
     
     public CalendarTable(View v){
+        this.setBackground(Model.BackGround);
         if(v == View.WEEK) buildWeek();
         if (v == View.MONTH) buildMonth();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
