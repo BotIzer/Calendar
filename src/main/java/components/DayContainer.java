@@ -86,7 +86,7 @@ public class DayContainer extends JPanel{
         date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        gc.fill = gc.BOTH;
+        gc.fill = GridBagConstraints.BOTH;
         gc.weightx = 1;
         gc.gridy = 0;
         this.add(date, gc);

@@ -1,6 +1,8 @@
 package views;
 import javax.swing.*;
 
+import models.Model;
+
 import java.awt.*;
 
 //Base class for frames that all custom frames inherit

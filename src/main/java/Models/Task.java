@@ -1,41 +1,43 @@
 package models;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
+import java.util.Date;
 import java.util.InputMismatchException;
 
 
 
 public class Task {
-    //index incrementer
     static int idxIncr = 0;
-    //Main collection for project, this data is shown on windows
-    //Start and end time of task
+    //Main collection for project
     private int id;
     private LocalDateTime start;
     private Integer[] duration;
     private String title;
     private String description;
-    //Importance of task
     private boolean priority;
 
-    public Task(){}
+    public Task(){
+        title = "";
+        description = "";
+        start = Model.now;
+        duration = new Integer[]{0,0};
+    }
+    public Task(int i, LocalDateTime s, Integer[] dur, String t, String d, boolean p){
+        id = i;
+        start = s;
+        duration = dur;
+        title = t;
+        description = d;
+        priority = p;
+    }
     public Task(LocalDateTime s, Integer[] dur, String t, String d){
         start = s;
         duration = dur;
         title = t;
         description = d;
-        id = idxIncr;
-        idxIncr++;
-    }
-    //ONLY FOR TESTING REMOVE LATER
-    public Task(String t, LocalDateTime date){
-        title = t;
-        start = date;
-        duration = new Integer[]{1,5};
-        description = null;
         id = idxIncr;
         idxIncr++;
     }
@@ -62,6 +64,7 @@ public class Task {
     }
     public void setDuration(Integer[] dur){
         if (dur.length != 2) throw new IllegalArgumentException("Illegal duration");
+        if (dur[0] == 0 && dur[1] == 0) throw new IllegalArgumentException("Illegal duration(0:0)");
         if ((dur[0] < 0 || dur[0] > 24) && (dur[1] < 0 || dur[1] > 60)) throw new IllegalArgumentException("Illegal minute or hour");
         duration = dur;
     }
@@ -90,5 +93,40 @@ public class Task {
         } catch (Exception e) {
             throw new InputMismatchException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
         }
+    }
+    public static LocalDateTime makeDate(Date newStart, Integer[] Duration){
+        if(Duration[0] == 0 && Duration[1] == 0) throw new IllegalArgumentException("Duration has to be at least 1 minute");
+        String tmp = LocalDateTime.ofInstant(newStart.toInstant(), ZoneId.systemDefault()).toString();
+        tmp = tmp.split("[T]")[0];
+        tmp += "T";
+        tmp += Duration[0] < 10 ? "0" + Duration[0].toString() : Duration[0].toString();
+        tmp += ":";
+        tmp += Duration[1] < 10 ? "0" + Duration[1].toString() : Duration[1].toString();
+        LocalDateTime res = LocalDateTime.parse(tmp);
+        return res;
+    }
+    public String serialize(){
+        String res = "{\"id\": " + this.getId() + ","+
+                      "\"title\": " + "\"" + this.getTitle() + "\"" + "," +
+                      "\"description\": " + "\""+ this.getDescription() + "\"" + "," +
+                      "\"start\": " + "\"" + this.getStart().toString() +"\"" + "," +
+                      "\"duration\": " + "[" + this.getDuration()[0] + ", " + this.getDuration()[1] + "]" + "," + 
+                      "\"priority\": " + this.getPriority() +
+                      "}";
+        return res;
+    }
+    public static Task deSerialize(String enrty){
+        String tmp = enrty.replaceAll("[\"{]|},", "").replace(", ", "-");
+        String[] map = tmp.split("[,:]");
+        int id = Integer.parseInt(map[1].trim());
+        String title = map[3].trim();
+        String desc = map[5].trim();
+        String st = map[7].trim() + ":" + map[8] +":"+ map[9].replace("Z", "");
+        LocalDateTime start = LocalDateTime.parse(st);
+        String[] hm = map[11].replaceAll("\\[", "").replaceAll("\\]", "").split("[-]");
+        Integer[] duration = {Integer.valueOf(hm[0].trim()), Integer.valueOf(hm[1].trim())};
+        boolean prio = Boolean.valueOf(map[13].trim());
+        Task res = new Task(id, start, duration, title, desc, prio);
+        return res;
     }
 }

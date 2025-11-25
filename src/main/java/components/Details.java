@@ -3,10 +3,8 @@ package components;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -16,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
 
@@ -29,14 +26,14 @@ import views.WindowBase;
 //Dialog popup for tasks and modifications
 public class Details extends JDialog {
     //Input fields to get updated data from, need to access in onClick function
-    static JTextPane newTitle = new JTextPane();
-    static JTextPane newDesc = new JTextPane();
-    static JCheckBox newPriority = new JCheckBox();
-    static JDateChooser newStart ;//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JComboBox startMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JComboBox startHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JComboBox durationMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
-    static JComboBox durationHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    JTextPane newTitle = new JTextPane();
+    JTextPane newDesc = new JTextPane();
+    JCheckBox newPriority = new JCheckBox();
+    JDateChooser newStart ;//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    JComboBox<Integer> startMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    JComboBox<Integer> startHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    JComboBox<Integer> durationMinute = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
+    JComboBox<Integer> durationHour = new JComboBox<Integer>();//new JFormattedTextField(new SimpleDateFormat(WindowBase.dateOutFormat));
 
 
 
@@ -64,15 +61,15 @@ public class Details extends JDialog {
         newPriority.setSelected(task.getPriority());
         JPanel duration = new JPanel(new GridLayout(1, 2));
         JPanel startTime = new JPanel(new GridLayout(1, 2)); 
-        Integer[] tmp = new Integer[24];
-        for (int i = 1; i < 25; i++) {
-            tmp[i-1] = Integer.valueOf(i);
+        Integer[] tmp = new Integer[25];
+        for (int i = 0; i < 25; i++) {
+            tmp[i] = Integer.valueOf(i);
         }
         durationHour = new JComboBox<Integer>(tmp);
         startHour = new JComboBox<Integer>(tmp);
-        tmp = new Integer[60];
-        for (int i = 1; i < 61; i++) {
-            tmp[i-1] = Integer.valueOf(i);
+        tmp = new Integer[61];
+        for (int i = 0; i < 61; i++) {
+            tmp[i] = Integer.valueOf(i);
         }
         durationMinute = new JComboBox<Integer>(tmp);
         startMinute = new JComboBox<Integer>(tmp);
@@ -120,15 +117,8 @@ public class Details extends JDialog {
         try {
             task.setTitle(newTitle.getText());
             task.setDesc(newDesc.getText());
-            String tmp = LocalDateTime.ofInstant(newStart.getDate().toInstant(), ZoneId.systemDefault()).toString();
-            tmp = tmp.split("[T]")[0];
-            tmp += "T";
-            tmp += (Integer)startHour.getSelectedItem() < 10 ? "0" + ((Integer)startHour.getSelectedItem()).toString() : ((Integer)startHour.getSelectedItem()).toString();
-            tmp += ":";
-            tmp += (Integer)startMinute.getSelectedItem() < 10 ? "0" + ((Integer)startMinute.getSelectedItem()).toString() : ((Integer)startMinute.getSelectedItem()).toString();
-            LocalDateTime tmpDate = LocalDateTime.parse(tmp);
-            task.setStart(tmpDate, LocalDateTime.now());
             task.setDuration(new Integer[]{(Integer)durationHour.getSelectedItem(), (Integer)durationMinute.getSelectedItem()});
+            task.setStart(Task.makeDate(newStart.getDate(), new Integer[]{(Integer)startHour.getSelectedItem(),(Integer)startMinute.getSelectedItem()}), LocalDateTime.now());
             task.setPrio(newPriority.isSelected());
             
             

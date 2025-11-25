@@ -3,11 +3,12 @@ import javax.swing.*;
 
 import components.CalendarTable;
 import components.CustomClock;
+import components.Details;
+import models.FileHandler;
 import models.Model;
 import models.Task;
 
 import java.awt.*;
-import java.time.LocalDateTime;
 
 public class MainFrame extends WindowBase {
     private CalendarTable calendar;
@@ -15,18 +16,14 @@ public class MainFrame extends WindowBase {
     private View view = View.WEEK;
     public MainFrame() {
         
-        //Test data, remove later
-        for (int i = 0; i < 3; i++) {
-            Model.tasks.add(new Task("Test" + i, LocalDateTime.now()));
-        }
-        Model.tasks.add(new Task("Test2", LocalDateTime.now().plusHours(4)));
+        FileHandler.readFromJson();
 
         //Configuration of behaviour
         this.setSize(WindowBase.resolution);
         this.setTitle("Calendar");
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         //Components
         JMenuBar menuBar = new JMenuBar();
         JMenu views = new JMenu("View");
@@ -37,11 +34,13 @@ public class MainFrame extends WindowBase {
         week.addActionListener(e -> switchView(View.WEEK));
         month.addActionListener(e -> switchView(View.MONTH));
         year.addActionListener(e -> switchView(View.YEAR));
-        
+        JButton addTask = new JButton("Add Task"); 
+        addTask.addActionListener(e -> new Details(new Task()));
         views.add(week);
         views.add(month);
         views.add(year);
         menuBar.add(views);
+        menuBar.add(addTask);
         calendar = new CalendarTable(view);
         clock = new CustomClock();
 
@@ -71,5 +70,12 @@ public class MainFrame extends WindowBase {
         calendar.refresh(v);
         this.repaint();
         this.revalidate();
+    }
+    @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
+        super.dispose();
+        FileHandler.writeToJson(Model.tasks);
+        System.exit(0);
     }
 }

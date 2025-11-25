@@ -1,11 +1,10 @@
 package components;
 
+
 import java.awt.Color;
 
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingConstants;
 
 import models.Model;
 import models.Task;
@@ -20,6 +19,8 @@ public class ContextMenu extends JMenu{
         delete.addActionListener(e -> {Model.tasks.remove(task);
                                        WindowBase.getInstance().refresh();
         });
+        this.setOpaque(true);
+        this.setBackground(task.getPriority() ? Color.RED : Color.CYAN);
         this.add(edit);
         this.add(delete);
     }
