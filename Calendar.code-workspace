@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar"
+		],
+		"java.project.sourcePaths": [
+			"src/main/java",
+			"lib",
+			"src/main"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "java",
+				"name": "Launch Java Program",
+				"request": "launch",
+				"mainClass": "D:/14A_Izer_Botond/BME/Java/NHZ/Calendar/src/main/Main.java"
+			}
+
+		]
+	}
+}

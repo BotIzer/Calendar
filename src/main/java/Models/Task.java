@@ -109,7 +109,7 @@ public class Task {
         String res = "{\"id\": " + this.getId() + ","+
                       "\"title\": " + "\"" + this.getTitle() + "\"" + "," +
                       "\"description\": " + "\""+ this.getDescription() + "\"" + "," +
-                      "\"start\": " + "\"" + this.getStart().toString() +"\"" + "," +
+                      "\"start\": " + "\"" + this.getStart().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString() +"\"" + "," +
                       "\"duration\": " + "[" + this.getDuration()[0] + ", " + this.getDuration()[1] + "]" + "," + 
                       "\"priority\": " + this.getPriority() +
                       "}";
@@ -122,7 +122,7 @@ public class Task {
         String title = map[3].trim();
         String desc = map[5].trim();
         String st = map[7].trim() + ":" + map[8] +":"+ map[9].replace("Z", "");
-        LocalDateTime start = LocalDateTime.parse(st);
+        LocalDateTime start = LocalDateTime.parse(st, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String[] hm = map[11].replaceAll("\\[", "").replaceAll("\\]", "").split("[-]");
         Integer[] duration = {Integer.valueOf(hm[0].trim()), Integer.valueOf(hm[1].trim())};
         boolean prio = Boolean.valueOf(map[13].trim());
