@@ -5,9 +5,11 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
-    public static void writeToJson(ArrayList<Task> model){
+    private FileHandler(){}
+    public static void writeToJson(List<Task> model){
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("tasks.json"));
             bw.write("[");

@@ -2,12 +2,12 @@ package components;
 
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -15,7 +15,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.border.Border;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -30,10 +29,10 @@ public class Details extends JDialog {
     JTextPane newDesc = new JTextPane();
     JCheckBox newPriority = new JCheckBox();
     JDateChooser newStart;
-    JComboBox<Integer> startMinute = new JComboBox<Integer>();
-    JComboBox<Integer> startHour = new JComboBox<Integer>();
-    JComboBox<Integer> durationMinute = new JComboBox<Integer>();
-    JComboBox<Integer> durationHour = new JComboBox<Integer>();
+    JComboBox<Integer> startMinute = new JComboBox<>();
+    JComboBox<Integer> startHour = new JComboBox<>();
+    JComboBox<Integer> durationMinute = new JComboBox<>();
+    JComboBox<Integer> durationHour = new JComboBox<>();
 
 
     public Details(Task task){
@@ -41,6 +40,7 @@ public class Details extends JDialog {
         this.setLayout(new GridLayout(7, 2, 5,5));
         this.setName("Details");
         this.setTitle("Details");
+        this.getContentPane().setBackground(Model.BackGroundColor);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         JLabel title = new JLabel("Title:");
         JLabel desc = new JLabel("Description:");
@@ -49,8 +49,7 @@ public class Details extends JDialog {
         JLabel durationLbl = new JLabel("Duration: (H-m)");
         JLabel priority = new JLabel("Priority:");
         newStart = new JDateChooser(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()), Model.getDateFormat());
-        newStart.setMinSelectableDate(Date.from(task.getStart().atZone(ZoneId.systemDefault()).toInstant()));
-        
+        newStart.setMinSelectableDate(Date.from(Model.now.atZone(ZoneId.systemDefault()).toInstant()));
         newTitle.setText(task.getTitle());
         newDesc.setText(task.getDescription());
         newPriority.setSelected(task.getPriority());
@@ -60,14 +59,14 @@ public class Details extends JDialog {
         for (int i = 0; i < 25; i++) {
             tmp[i] = Integer.valueOf(i);
         }
-        durationHour = new JComboBox<Integer>(tmp);
-        startHour = new JComboBox<Integer>(tmp);
-        tmp = new Integer[61];
-        for (int i = 0; i < 61; i++) {
+        durationHour = new JComboBox<>(tmp);
+        startHour = new JComboBox<>(tmp);
+        tmp = new Integer[60];
+        for (int i = 0; i < 60; i++) {
             tmp[i] = Integer.valueOf(i);
         }
-        durationMinute = new JComboBox<Integer>(tmp);
-        startMinute = new JComboBox<Integer>(tmp);
+        durationMinute = new JComboBox<>(tmp);
+        startMinute = new JComboBox<>(tmp);
         durationHour.setSelectedItem(task.getDuration()[0]);
         durationMinute.setSelectedItem(task.getDuration()[1]);
         startHour.setSelectedItem(Integer.valueOf(task.getStart().toString().substring(11,13)));
@@ -79,9 +78,8 @@ public class Details extends JDialog {
         JButton close = new JButton("Close");
         JButton save = new JButton("Save");
 
-        Border border = BorderFactory.createLineBorder(Color.black);
-        newTitle.setBorder(border);
-        newDesc.setBorder(border);
+        newTitle.setBorder(Model.basicBorder);
+        newDesc.setBorder(Model.basicBorder);
         close.setAlignmentY(BOTTOM_ALIGNMENT);
         
         close.addActionListener(e -> {
@@ -106,6 +104,16 @@ public class Details extends JDialog {
         this.add(save);
         this.setVisible(true);
         
+        for (Component c : this.getContentPane().getComponents()) {
+            c.setForeground(Model.TextColor);
+            c.setBackground(Model.BackGroundColor);
+        }
+        newTitle.setBackground(Color.WHITE);
+        newTitle.setForeground(Color.BLACK);
+        newDesc.setBackground(Color.WHITE);
+        newDesc.setForeground(Color.BLACK);
+        save.setBackground(Model.PrimaryColor);
+        close.setBackground(Model.SecondaryColor);
         this.pack();
     }
     //Save changes,then close window and enable parent

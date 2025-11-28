@@ -24,19 +24,33 @@ public class MainFrame extends WindowBase {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setBackground(Model.BackGround);
+        this.setBackground(Model.BackGroundColor);
         //Components
         JMenuBar menuBar = new JMenuBar();
         JMenu views = new JMenu("View");
         JMenuItem week = new JMenuItem("Week");
         JMenuItem month = new JMenuItem("Month");
-        //TODO year
         JMenuItem year = new JMenuItem("Year");
         week.addActionListener(e -> switchView(View.WEEK));
         month.addActionListener(e -> switchView(View.MONTH));
         year.addActionListener(e -> switchView(View.YEAR));
         JButton addTask = new JButton("Add Task"); 
+        menuBar.setBackground(Model.BackGroundColor);
+        views.setBackground(Model.BackGroundColor);
+        views.setForeground(Model.TextColor);
+        week.setBackground(Model.BackGroundColor);
+        week.setForeground(Model.TextColor);
+        month.setBackground(Model.BackGroundColor);
+        month.setForeground(Model.TextColor);
+        year.setBackground(Model.BackGroundColor);
+        year.setForeground(Model.TextColor);
+        addTask.setBackground(Model.PrimaryColor);
+        addTask.setForeground(Model.TextColor);
+
+        
+        addTask.setFocusable(false);
         addTask.addActionListener(e -> new Details(new Task()));
+        
         views.add(week);
         views.add(month);
         views.add(year);
@@ -44,8 +58,6 @@ public class MainFrame extends WindowBase {
         menuBar.add(addTask);
         calendar = new CalendarTable(view);
         clock = new CustomClock();
-
-
 
 
         //Add components to frame
@@ -58,6 +70,7 @@ public class MainFrame extends WindowBase {
         gc.gridy = 1;
         this.add(calendar,gc);
         this.setVisible(true);
+
     }
     @Override
     public void refresh() {
@@ -77,4 +90,5 @@ public class MainFrame extends WindowBase {
         FileHandler.writeToJson(Model.tasks);
         System.exit(0);
     }
+
 }

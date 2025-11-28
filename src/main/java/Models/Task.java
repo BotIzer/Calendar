@@ -94,26 +94,25 @@ public class Task {
             throw new InputMismatchException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
         }
     }
-    public static LocalDateTime makeDate(Date newStart, Integer[] Duration){
-        if(Duration[0] == 0 && Duration[1] == 0) throw new IllegalArgumentException("Duration has to be at least 1 minute");
+    public static LocalDateTime makeDate(Date newStart, Integer[] duration){
+        if(duration[0] == 0 && duration[1] == 0) throw new IllegalArgumentException("Duration has to be at least 1 minute");
         String tmp = LocalDateTime.ofInstant(newStart.toInstant(), ZoneId.systemDefault()).toString();
-        tmp = tmp.split("[T]")[0];
+        tmp = tmp.split("T")[0];
         tmp += "T";
-        tmp += Duration[0] < 10 ? "0" + Duration[0].toString() : Duration[0].toString();
+        tmp += duration[0] < 10 ? "0" + duration[0].toString() : duration[0].toString();
         tmp += ":";
-        tmp += Duration[1] < 10 ? "0" + Duration[1].toString() : Duration[1].toString();
-        LocalDateTime res = LocalDateTime.parse(tmp);
-        return res;
+        tmp += duration[1] < 10 ? "0" + duration[1].toString() : duration[1].toString();
+        return LocalDateTime.parse(tmp);
+        
     }
     public String serialize(){
-        String res = "{\"id\": " + this.getId() + ","+
+        return "{\"id\": " + this.getId() + ","+
                       "\"title\": " + "\"" + this.getTitle() + "\"" + "," +
                       "\"description\": " + "\""+ this.getDescription() + "\"" + "," +
-                      "\"start\": " + "\"" + this.getStart().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString() +"\"" + "," +
+                      "\"start\": " + "\"" + this.getStart().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) +"\"" + "," +
                       "\"duration\": " + "[" + this.getDuration()[0] + ", " + this.getDuration()[1] + "]" + "," + 
                       "\"priority\": " + this.getPriority() +
                       "}";
-        return res;
     }
     public static Task deSerialize(String enrty){
         String tmp = enrty.replaceAll("[\"{]|},", "").replace(", ", "-");
@@ -123,10 +122,9 @@ public class Task {
         String desc = map[5].trim();
         String st = map[7].trim() + ":" + map[8] +":"+ map[9].replace("Z", "");
         LocalDateTime start = LocalDateTime.parse(st, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        String[] hm = map[11].replaceAll("\\[", "").replaceAll("\\]", "").split("[-]");
+        String[] hm = map[11].replace("[", "").replace("]", "").split("-");
         Integer[] duration = {Integer.valueOf(hm[0].trim()), Integer.valueOf(hm[1].trim())};
-        boolean prio = Boolean.valueOf(map[13].trim());
-        Task res = new Task(id, start, duration, title, desc, prio);
-        return res;
+        boolean prio = Boolean.parseBoolean(map[13].trim());
+        return new Task(id, start, duration, title, desc, prio);
     }
 }

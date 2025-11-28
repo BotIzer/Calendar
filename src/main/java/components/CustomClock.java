@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import models.Model;
@@ -17,16 +18,19 @@ public class CustomClock extends JPanel{
     protected JLabel time = new JLabel();
     public CustomClock(){
         this.setLayout(new GridLayout(2,1));
+        this.setBackground(Model.BackGroundColor);
         date = new JLabel(Model.now.format(DateTimeFormatter.ofPattern(Model.getDateFormat())));
         time = new JLabel(Model.now.format(DateTimeFormatter.ofPattern(Model.getTimeFormat())));
         Timer timer = new Timer(100, e -> refresh());
 
-        date.setHorizontalAlignment(JLabel.CENTER);
-        date.setVerticalAlignment(JLabel.CENTER);
+        date.setHorizontalAlignment(SwingConstants.CENTER);
+        date.setVerticalAlignment(SwingConstants.CENTER);
         date.setFont(new Font("Times New Roman", Font.BOLD, 100));
-        time.setHorizontalAlignment(JLabel.CENTER);
-        time.setVerticalAlignment(JLabel.CENTER);
+        date.setForeground(Model.TextColor);
+        time.setHorizontalAlignment(SwingConstants.CENTER);
+        time.setVerticalAlignment(SwingConstants.CENTER);
         time.setFont(new Font("Times New Roman", Font.BOLD, 80));
+        time.setForeground(Model.TextColor);
 
         timer.start();
         this.add(date);

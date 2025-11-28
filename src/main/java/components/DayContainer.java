@@ -1,13 +1,11 @@
 package components;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -25,12 +23,10 @@ import views.WindowBase.View;
 public class DayContainer extends JPanel{
     private ArrayList<Task> tasks;
     public DayContainer(String dayString, String dateString, List<Task> dayTasks, View v){
-        this.setBackground(Model.BackGround);
+        this.setBackground(Model.BackGroundColor);
         tasks = new ArrayList<>(dayTasks);
         if (v == View.WEEK) buildWeek(dayString, dateString);
         if (v == View.MONTH) buildMonth(dayString, dateString);
-        if (v == View.YEAR) ;//TODO buildyear;
-        
    }
     private void buildWeek(String dayString, String dateString){
         this.setLayout(new GridLayout(5, 1));
@@ -55,9 +51,9 @@ public class DayContainer extends JPanel{
         JLabel date = new JLabel(dateString);
         JPanel title = new JPanel();
         title.setLayout(new GridLayout(2,1));
-        title.setBackground(Model.BackGround);
-        day.setForeground(Color.WHITE);
-        date.setForeground(Color.WHITE);
+        title.setBackground(Model.BackGroundColor);
+        day.setForeground(Model.TextColor);
+        date.setForeground(Model.TextColor);
         TaskContainer morningContainer = new TaskContainer(morning);
         TaskContainer noonContainer = new TaskContainer(noon);
         TaskContainer afterNoonContainer = new TaskContainer(afterNoon);
@@ -67,7 +63,7 @@ public class DayContainer extends JPanel{
         day.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
         date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        title.setBorder(Model.basicBorder);
         
         title.add(day);
         title.add(date);
@@ -85,33 +81,54 @@ public class DayContainer extends JPanel{
         JLabel date = new JLabel(dateString);
         day.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         day.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        day.setForeground(Model.TextColor);
         date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         date.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        date.setForeground(Model.TextColor);
+        this.setBorder(Model.basicBorder);
         gc.fill = GridBagConstraints.BOTH;
         gc.weightx = 1;
         gc.gridy = 0;
         this.add(date, gc);
         gc.gridy = 1;
         JLabel separator = new JLabel();
-        separator.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        separator.setBorder(Model.basicBorder);
         this.add(separator, gc);
         gc.gridy = 2;
         this.add(day, gc);
         if (!tasks.isEmpty()) {
             JButton showTasks = new JButton(String.valueOf(tasks.size()));
+            showTasks.setBackground(Model.PrimaryColor);
+            showTasks.setForeground(Model.TextColor);
             showTasks.addActionListener(e -> monthButtonClick(dateString + " - " + dayString, tasks)); 
             gc.weighty = 1;
             gc.gridy = 3;
             this.add(showTasks, gc);
+        }else {
+            JPanel noTasks = new JPanel();
+            JLabel lbl = new JLabel("No tasks");
+            noTasks.setBackground(Model.BackGroundColor);
+            lbl.setForeground(Model.TextColor);
+            gc.weighty = 1;
+            gc.gridy = 3;
+            noTasks.add(lbl);
+            this.add(noTasks, gc);
         }
     }
 
     private void monthButtonClick(String title, List<Task> tasks){
         JDialog tasksOfDay = new JDialog();
+        tasksOfDay.getContentPane().setBackground(Model.BackGroundColor);
+        tasksOfDay.getContentPane().setForeground(Model.TextColor);
         tasksOfDay.setTitle(title);
         JTable tableOfTasks = new JTable(new TaskTableModel(tasks));
         JScrollPane scroll = new JScrollPane(tableOfTasks);
+        scroll.setBackground(Model.BackGroundColor);
+        scroll.setForeground(Model.TextColor);
+        tableOfTasks.setForeground(Model.TextColor);
+        tableOfTasks.setBackground(Model.BackGroundColor);
+        scroll.getViewport().setBackground(Model.BackGroundColor);
+        
         tasksOfDay.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); 
         tasksOfDay.add(scroll);
         tasksOfDay.pack();
