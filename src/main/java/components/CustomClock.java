@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import models.Model;
+import main.java.models.Model;
+
 
 //Dynamically changing clock, refreshes every 100 ms
 public class CustomClock extends JPanel{

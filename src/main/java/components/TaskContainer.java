@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -10,12 +10,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import models.Model;
-import models.Task;
+import main.java.models.Model;
+import main.java.models.Task;
+
 
 //Container that displays a task, or list if there are multiple that wouldnt fit
 public class TaskContainer extends JPanel{
-    public TaskContainer(List<models.Task> tl){
+    public TaskContainer(List<Task> tl){
         this.setBackground(Model.BackGroundColor);
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();

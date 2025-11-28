@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 
 import java.awt.Color;
@@ -18,9 +18,10 @@ import javax.swing.JTextPane;
 
 import com.toedter.calendar.JDateChooser;
 
-import models.Model;
-import models.Task;
-import views.WindowBase;
+import main.java.models.Model;
+import main.java.models.Task;
+import main.java.views.WindowBase;
+
 
 //Dialog popup for tasks and modifications
 //Shows a popup menu with data of task, disables parent until closed

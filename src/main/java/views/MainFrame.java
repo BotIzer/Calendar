@@ -1,12 +1,12 @@
-package views;
+package main.java.views;
 import javax.swing.*;
 
-import components.CalendarTable;
-import components.CustomClock;
-import components.Details;
-import models.FileHandler;
-import models.Model;
-import models.Task;
+import main.java.components.CalendarTable;
+import main.java.components.CustomClock;
+import main.java.components.Details;
+import main.java.models.FileHandler;
+import main.java.models.Model;
+import main.java.models.Task;
 
 import java.awt.*;
 

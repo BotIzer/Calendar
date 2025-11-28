@@ -1,10 +1,9 @@
+package main;
 
-
-import views.WindowBase;
+import main.java.views.WindowBase;
 
 public class Main {
-   public static void main(String[] args){
-        WindowBase.getInstance();
-        
+   public static void main(String[] args){  
+      WindowBase.getInstance();   
    } 
 }

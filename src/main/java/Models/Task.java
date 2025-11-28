@@ -1,4 +1,4 @@
-package models;
+package main.java.models;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -33,11 +33,12 @@ public class Task {
         description = d;
         priority = p;
     }
-    public Task(LocalDateTime s, Integer[] dur, String t, String d){
+    public Task(LocalDateTime s, Integer[] dur, String t, String d, boolean p){
         start = s;
         duration = dur;
         title = t;
         description = d;
+        priority = p;
         id = idxIncr;
         idxIncr++;
     }

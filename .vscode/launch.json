@@ -8,15 +8,8 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "main.Main",
             "projectName": "Calendar_3e38f3c1"
         },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "Calendar_c18bca7b"
-        }
     ]
 }

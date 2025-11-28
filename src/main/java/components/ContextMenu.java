@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 
 import java.awt.Color;
@@ -6,9 +6,9 @@ import java.awt.Color;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import models.Model;
-import models.Task;
-import views.WindowBase;
+import main.java.models.Model;
+import main.java.models.Task;
+import main.java.views.WindowBase;
 
 //Context menu for task
 public class ContextMenu extends JMenu{

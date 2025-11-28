@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,10 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-import models.Model;
-import models.Task;
-import models.TaskTableModel;
-import views.WindowBase.View;
+import main.java.models.Model;
+import main.java.models.Task;
+import main.java.models.TaskTableModel;
+import main.java.views.WindowBase.View;
 
 //Container for day in table
 public class DayContainer extends JPanel{

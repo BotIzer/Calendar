@@ -1,4 +1,4 @@
-package components;
+package main.java.components;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -18,9 +18,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import models.Model;
-import models.Task;
-import views.WindowBase.View;
+import main.java.models.Model;
+import main.java.models.Task;
+import main.java.views.WindowBase.View;
 
 
 
