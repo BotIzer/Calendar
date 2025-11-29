@@ -4,18 +4,21 @@ import javax.swing.*;
 import main.java.components.CalendarTable;
 import main.java.components.CustomClock;
 import main.java.components.Details;
+import main.java.components.TasksTodayPopup;
 import main.java.models.FileHandler;
 import main.java.models.Model;
 import main.java.models.Task;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class MainFrame extends WindowBase {
     private CalendarTable calendar;
     private CustomClock clock;
     private View view = View.WEEK;
     public MainFrame() {
-        
+        //Load Data
         FileHandler.readFromJson();
 
         //Configuration of behaviour
@@ -25,6 +28,7 @@ public class MainFrame extends WindowBase {
         GridBagConstraints gc = new GridBagConstraints();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setBackground(Model.BackGroundColor);
+        
         //Components
         JMenuBar menuBar = new JMenuBar();
         JMenu views = new JMenu("View");
@@ -71,6 +75,7 @@ public class MainFrame extends WindowBase {
         this.add(calendar,gc);
         this.setVisible(true);
 
+        popUp();
     }
     @Override
     public void refresh() {
@@ -89,6 +94,16 @@ public class MainFrame extends WindowBase {
         super.dispose();
         FileHandler.writeToJson(Model.tasks);
         System.exit(0);
+    }
+
+    private void popUp(){
+        ArrayList<Task> today = new ArrayList<>();
+        for (Task task : Model.tasks) {
+            if (task.getStart().getDayOfYear() == LocalDateTime.now().getDayOfYear()) {
+                today.add(task);
+            }
+        }
+        if (!today.isEmpty()) new TasksTodayPopup(today);
     }
 
 }
