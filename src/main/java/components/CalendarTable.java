@@ -80,7 +80,7 @@ public class CalendarTable extends JPanel{
             monthLbl.setForeground(Model.TextColor);
             JProgressBar progress = new JProgressBar();
             progress.setStringPainted(true);
-            progress.setValue(Model.tasksOfMonth(i) / 31);
+            progress.setValue((int)((Model.tasksOfMonth(i) / 31.0) * 100.0));
             progress.setBackground(Model.TextColor);
             progress.setForeground(Model.PrimaryColor);
             gc.fill = GridBagConstraints.HORIZONTAL;

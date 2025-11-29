@@ -5,8 +5,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.InputMismatchException;
-
 
 
 public class Task {
@@ -53,20 +51,22 @@ public class Task {
 
     //Setters and data constraints
     public void setTitle(String tit){
+        if(tit == null) throw new IllegalArgumentException("Title cannot be null");
         if(tit.trim().isEmpty()) throw new IllegalArgumentException("Title cannot be empty");
         title = tit.trim();
     }
     public void setStart(LocalDateTime ns, LocalDateTime tmpNow){
         if(ns.equals(start)) return;
         if (ns.truncatedTo(ChronoUnit.MINUTES).isBefore(tmpNow.truncatedTo(ChronoUnit.MINUTES))) {
-            throw new InputMismatchException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
+            throw new IllegalArgumentException("Start date cannot be before current date (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + ")");
         }
         start = ns;
     }
     public void setDuration(Integer[] dur){
+        if (dur == null) throw new IllegalArgumentException("Duration cannot be null");
         if (dur.length != 2) throw new IllegalArgumentException("Illegal duration");
         if (dur[0] == 0 && dur[1] == 0) throw new IllegalArgumentException("Illegal duration(0:0)");
-        if ((dur[0] < 0 || dur[0] > 24) && (dur[1] < 0 || dur[1] > 60)) throw new IllegalArgumentException("Illegal minute or hour");
+        if ((dur[0] < 0 || dur[0] > 24) || (dur[1] < 0 || dur[1] > 60)) throw new IllegalArgumentException("Illegal minute or hour");
         duration = dur;
     }
     public void setDesc(String nd){
@@ -84,7 +84,7 @@ public class Task {
         }
     }
 
-    public static LocalDateTime stringToLocalDate(String date) throws InputMismatchException{
+    public static LocalDateTime stringToLocalDate(String date) throws IllegalArgumentException{
         try {
             int[] dateData = new int[5];
             for (int i = 0; i < 5; i++) {
@@ -92,17 +92,17 @@ public class Task {
             }
             return LocalDateTime.of(dateData[0],dateData[1],dateData[2],dateData[3],dateData[4]);
         } catch (Exception e) {
-            throw new InputMismatchException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
+            throw new IllegalArgumentException("Given date is in the wrong format (" + "yyyy.MM.dd HH:mm" + ") ");
         }
     }
-    public static LocalDateTime makeDate(Date newStart, Integer[] duration){
-        if(duration[0] == 0 && duration[1] == 0) throw new IllegalArgumentException("Duration has to be at least 1 minute");
+    public static LocalDateTime makeDate(Date newStart, Integer[] startHrMin){
+        if(startHrMin[0] == 0 && startHrMin[1] == 0) throw new IllegalArgumentException("Duration has to be at least 1 minute");
         String tmp = LocalDateTime.ofInstant(newStart.toInstant(), ZoneId.systemDefault()).toString();
         tmp = tmp.split("T")[0];
         tmp += "T";
-        tmp += duration[0] < 10 ? "0" + duration[0].toString() : duration[0].toString();
+        tmp += startHrMin[0] < 10 ? "0" + startHrMin[0].toString() : startHrMin[0].toString();
         tmp += ":";
-        tmp += duration[1] < 10 ? "0" + duration[1].toString() : duration[1].toString();
+        tmp += startHrMin[1] < 10 ? "0" + startHrMin[1].toString() : startHrMin[1].toString();
         return LocalDateTime.parse(tmp);
         
     }

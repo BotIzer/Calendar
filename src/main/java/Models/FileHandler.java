@@ -26,7 +26,7 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
-    public static ArrayList<Task> readFromJson(){
+    public static List<Task> readFromJson(){
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/tasks.json"));

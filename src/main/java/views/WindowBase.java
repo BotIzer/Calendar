@@ -26,6 +26,7 @@ public class WindowBase extends JFrame {
     public static void switchWindow(WindowBase nw){
         active = nw;
     }
-    //"Virtual" function to repaint contents of windows
-    public void refresh(){}
+    public void refresh(){
+        //"Virtual" function to repaint contents of windows
+    }
 }

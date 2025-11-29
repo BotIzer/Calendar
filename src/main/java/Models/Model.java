@@ -34,9 +34,9 @@ public class Model {
         return n;
     }
 
-    public static Border basicBorder = BorderFactory.createLineBorder(Color.BLACK);
-    public static Color PrimaryColor = new Color(0, 122, 204);
-    public static Color SecondaryColor = new Color(61,61,61);
-    public static Color BackGroundColor = new Color(30,30,30);
-    public static Color TextColor = Color.WHITE;
+    public static final Border basicBorder = BorderFactory.createLineBorder(Color.BLACK);
+    public static final Color PrimaryColor = new Color(0, 122, 204);
+    public static final Color SecondaryColor = new Color(61,61,61);
+    public static final Color BackGroundColor = new Color(30,30,30);
+    public static final Color TextColor = Color.WHITE;
 }

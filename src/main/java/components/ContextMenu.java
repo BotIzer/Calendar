@@ -1,7 +1,6 @@
 package main.java.components;
 
 
-import java.awt.Color;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -13,7 +12,7 @@ import main.java.views.WindowBase;
 //Context menu for task
 public class ContextMenu extends JMenu{
     public ContextMenu(Task task){
-        this.setText(task.getTitle());
+        this.setText(task.getTitle().length() > 15 ? task.getTitle().substring(0, 15) + "..." : task.getTitle());
         this.setForeground(Model.TextColor);
         JMenuItem edit = new JMenuItem("Edit");
         JMenuItem delete = new JMenuItem("Delete");
@@ -22,7 +21,7 @@ public class ContextMenu extends JMenu{
                                        WindowBase.getInstance().refresh();
         });
         this.setOpaque(true);
-        this.setBackground(task.getPriority() ? Color.RED : Model.PrimaryColor);
+        this.setBackground(task.getPriority() ? Model.PrimaryColor : Model.SecondaryColor);
         this.add(edit);
         this.add(delete);
     }

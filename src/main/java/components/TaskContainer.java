@@ -30,9 +30,9 @@ public class TaskContainer extends JPanel{
             menugc.gridx = 0;
             ContextMenu context = new ContextMenu(tl.get(0));
             if (tl.get(0).getPriority()) {
-                container.setBackground(Color.RED);
-            } else {
                 container.setBackground(Model.PrimaryColor);
+            } else {
+                container.setBackground(Model.SecondaryColor);
             }
             JMenu showMore = new JMenu("+" + (tl.size() - 1));
             for (Task task : tl.subList(1, tl.size())) {
