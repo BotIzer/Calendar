@@ -85,7 +85,14 @@ public class MainFrame extends WindowBase {
     }
     private void switchView(View v){
         this.view = v;
-        calendar.refresh(v);
+        this.remove(calendar);
+        calendar = new CalendarTable(v);
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.BOTH;
+        gc.weighty = 1;
+        gc.weightx = 1;
+        gc.gridy = 1;
+        this.add(calendar, gc);
         this.repaint();
         this.revalidate();
     }
