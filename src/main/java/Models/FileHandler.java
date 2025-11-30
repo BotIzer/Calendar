@@ -31,10 +31,14 @@ public class FileHandler {
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/tasks.json"));
             String entry;
-            
+            int maxId = 0; 
             while ((entry = br.readLine()) != null) {
                 tasks.add(Task.deSerialize(entry));
+                if (tasks.getLast().getId() > maxId) {
+                    maxId = tasks.getLast().getId();
+                }
             }
+            Task.idxIncr = maxId + 1;
             Model.tasks = tasks;
             br.close();
         } catch (Exception e) {

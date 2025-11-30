@@ -126,6 +126,11 @@ public class Details extends JDialog {
             task.setStart(Task.makeDate(newStart.getDate(), new Integer[]{(Integer)startHour.getSelectedItem(),(Integer)startMinute.getSelectedItem()}), LocalDateTime.now());
             task.setPrio(newPriority.isSelected());
             
+            if(!Model.tasks.contains(task)) {
+                Model.tasks.add(task);
+                Task.idxIncr += 1;
+            }
+
             
             WindowBase.getInstance().setEnabled(true);
             Task.setTask(task);

@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 public class Task {
-    static int idxIncr = 0;
+    public static int idxIncr = 0;
     //Main collection for project
     private int id;
     private LocalDateTime start;
@@ -18,10 +18,12 @@ public class Task {
     private boolean priority;
 
     public Task(){
+        id = idxIncr++;
         title = "";
         description = "";
         start = Model.now;
         duration = new Integer[]{0,0};
+        priority = false;
     }
     public Task(int i, LocalDateTime s, Integer[] dur, String t, String d, boolean p){
         id = i;
@@ -116,7 +118,7 @@ public class Task {
                       "}";
     }
     public static Task deSerialize(String enrty){
-        String tmp = enrty.replaceAll("[\"{]|},", "").replace(", ", "-");
+        String tmp = enrty.replaceAll("[\"{]|},|}]", "").replace(", ", "-");
         String[] map = tmp.split("[,:]");
         int id = Integer.parseInt(map[1].trim());
         String title = map[3].trim();
